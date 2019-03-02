@@ -4,6 +4,7 @@ import random
 import bottle
 
 from api import ping_response, start_response, move_response, end_response
+from utils import *
 
 
 @bottle.route('/')
@@ -66,10 +67,11 @@ def move():
 
     board_height = data['board']['height']
     board_width = data['board']['width']
-    head_x = data['you']['body']['x'][0]
-    head_y = data['you']['body']['y'][0]
-    neck_x = data['you']['body']['x'][1]
-    neck_y = data['you']['body']['y'][1]
+
+    head_x = data['you']['body'][0]['x']
+    head_y = data['you']['body'][0]['y']
+    neck_x = data['you']['body'][1]['x']
+    neck_y = data['you']['body'][1]['y']
     other_sneks = data['board']['snakes']
 
     for direction in ['up', 'down', 'left', 'right']:
@@ -125,16 +127,7 @@ if __name__ == '__main__':
         port=os.getenv('PORT', '8080'),
         debug=os.getenv('DEBUG', True)
     )
-
-
-# done
-def keywithmaxval(d):
-    """ a) create a list of the dict's keys and values;
-    b) return the key with the max value"""
-    v = list(d.values())
-    k = list(d.keys())
-    return k[v.index(max(v))]
-
+xspo
 
 # done
 def hit_wall(head_x, head_y, board_height, board_width, direction):
@@ -174,7 +167,7 @@ def hit_other_snek(head_x, head_y, other_sneks, direction):
     for snek in other_sneks:
         other_snek_body_coords.append((snek['body']['x'], snek['body']['y']))
         # also avoid all possible pixels the other snek could go to
-        other_snek_possible_heads.append(get_surrounding_coords(snek['body']['x'][0], snek['body']['y'][0]))
+        other_snek_possible_heads.append(get_surrounding_coords(snek['body'][0]['x'], snek['body'][0]['y']))
         # for later if time, check if the other snake can access food,
         # if not then take tail coord out of avoid list
     avoid_coords = other_snek_body_coords + other_snek_possible_heads
@@ -201,28 +194,3 @@ def assign_food_reward(head_x, head_y, data, direction):
         max_turns = data['board']['height'] + data['board']['height']
         food_reward += max_turns - n_turns_to_food
     return(food_reward)
-
-
-########################################
-# utils
-########################################
-
-
-# done
-def direction_to_vector(direction):
-    # convert a direction to a vector
-    foo = {'up': (1, 0),
-           'down': (-1, 0),
-           'left': (0, -1),
-           'right': (0, 1)
-           }
-    return(foo[direction])
-
-
-def get_surrounding_coords(x_coord, y_coord):
-    # given an (x,y) coordinate, get all surrounding
-    up_new = (x_coord, y_coord+1)
-    down_new = (x_coord, y_coord-1)
-    left_new = (x_coord-1, y_coord)
-    right_new = (x_coord+1, y_coord)
-    return([up_new, down_new, left_new, right_new])
