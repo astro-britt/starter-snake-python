@@ -1,3 +1,5 @@
+from utils import *
+
 # done
 def hit_wall(head_x, head_y, board_height, board_width, direction):
     # true if this move will cause you to hit a wall
@@ -61,6 +63,7 @@ def head_hit_tail(head_x, head_y, data, direction):
         return(True)
     else:
         return(False)
+
 
 # done
 def assign_food_reward(head_x, head_y, data, direction):
