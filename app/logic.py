@@ -62,8 +62,10 @@ def head_hit_tail(head_x, head_y, data, direction):
     tail_coords = []
     for tail_coord in data['you']['body']:
         tail_coords.append((tail_coord['x'], tail_coord['y']))
+        print('my body coords: {}'.format(tail_coords))
     if new_head_coord in tail_coords:
         print('would hit our own tail if we go {}'.format(direction))
+        print('my current head position is {} and if we turn {} it will be {}'.format((head_x, head_y), direction, new_head_coord))
         return(True)
     else:
         return(False)
