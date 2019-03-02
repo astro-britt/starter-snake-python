@@ -110,6 +110,7 @@ def move():
 
     # choose direction with greatest reward
     direction = keywithmaxval(directions)
+    print('Chose to go {} on turn {}'.format(direction, turn))
 
     return move_response(direction)
 
