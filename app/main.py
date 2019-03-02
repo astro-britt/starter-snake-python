@@ -90,7 +90,7 @@ def move():
             reward += -np.inf
 
         # check if any of the moves will run you into another snake
-        if hit_other_snek(head_x, head_y, data, directiont):
+        if hit_other_snek(head_x, head_y, data, direction):
             reward += -np.inf
 
         # check which move will bring you closest to food
