@@ -66,13 +66,15 @@ def move():
                   'left': 1,
                   'right': 1}
 
+    turn = data['turn']
     board_height = data['board']['height']
     board_width = data['board']['width']
 
     head_x = data['you']['body'][0]['x']
     head_y = data['you']['body'][0]['y']
-    neck_x = data['you']['body'][1]['x']
-    neck_y = data['you']['body'][1]['y']
+    if turn != 1:
+        neck_x = data['you']['body'][1]['x']
+        neck_y = data['you']['body'][1]['y']
     # other_sneks = data['board']['snakes']
 
     for direction in ['up', 'down', 'left', 'right']:
@@ -82,8 +84,9 @@ def move():
             reward += -np.inf
 
         # check which of the moves will run your head into your neck
-        if head_hit_neck(head_x, head_y, neck_x, neck_y, direction):
-            reward += -np.inf
+        if turn != 1:
+            if head_hit_neck(head_x, head_y, neck_x, neck_y, direction):
+                reward += -np.inf
 
         # check if it's going to hit its own tail
         if head_hit_tail(head_x, head_y, data, direction):
