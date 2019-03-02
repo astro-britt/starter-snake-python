@@ -4,9 +4,9 @@ from utils import *
 def hit_wall(head_x, head_y, board_height, board_width, direction):
     # true if this move will cause you to hit a wall
     dir_vect = direction_to_vector(direction)
-    if (head_x + dir_vect[0] == 0) or (head_x + dir_vect[0] == board_width-1):
+    if (head_x + dir_vect[0] == 0) or (head_x + dir_vect[0] == board_width):
         return(True)
-    elif (head_y + dir_vect[1] == 0) or (head_x + dir_vect[1] == board_height-1):
+    elif (head_y + dir_vect[1] == 0) or (head_x + dir_vect[1] == board_heights):
         print('would hit a wall if we go {}'.format(direction))
         return(True)
     else:
@@ -62,8 +62,6 @@ def head_hit_tail(head_x, head_y, data, direction):
     tail_coords = []
     for tail_coord in data['you']['body']:
         tail_coords.append((tail_coord['x'], tail_coord['y']))
-        print('my body coords: {}'.format(tail_coords))
-    print('my current head position is {} and if we turn {} it will be {}'.format((head_x, head_y), direction, new_head_coord))
     if new_head_coord in tail_coords:
         print('would hit our own tail if we go {}'.format(direction))
         return(True)
@@ -85,6 +83,6 @@ def assign_food_reward(head_x, head_y, data, direction):
         # would it take use to get to this food?
         n_turns_to_food = abs(new_head_coord[0] - food_spot['x']) + abs(new_head_coord[1] - food_spot['y'])
         # assign reward based on maximum possible number of turns
-        max_turns = data['board']['height'] + data['board']['height']
+        max_turns = data['board']['height'] + data['board']['width']
         food_reward += max_turns - n_turns_to_food
     return(food_reward)
