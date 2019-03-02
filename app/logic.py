@@ -4,9 +4,10 @@ from utils import *
 def hit_wall(head_x, head_y, board_height, board_width, direction):
     # true if this move will cause you to hit a wall
     dir_vect = direction_to_vector(direction)
-    if (head_x + dir_vect[0] == 0) or (head_x + dir_vect[0] == board_width):
+    if (head_x + dir_vect[0] == 0) or (head_x + dir_vect[0] == board_width-1):
         return(True)
-    elif (head_y + dir_vect[1] == 0) or (head_x + dir_vect[1] == board_height):
+    elif (head_y + dir_vect[1] == 0) or (head_x + dir_vect[1] == board_height-1):
+        print('would hit a wall if we go {}'.format(direction))
         return(True)
     else:
         return(False)
@@ -20,6 +21,7 @@ def head_hit_neck(head_x, head_y, neck_x, neck_y, direction):
     new_head_y = head_y + dir_vect[1]
     if (new_head_x == neck_x) & (new_head_y == neck_y):
         return(True)
+        print('would run over our own neck if we go {}'.format(direction))
     else:
         return(False)
 
@@ -46,6 +48,7 @@ def hit_other_snek(head_x, head_y, data, direction):
     avoid_coords = other_snek_body_coords + other_snek_possible_heads
     if new_head_coord in avoid_coords:
         return True
+        print('would hit other snake if we go {}'.format(direction))
     else:
         return False
 
@@ -60,6 +63,7 @@ def head_hit_tail(head_x, head_y, data, direction):
     for tail_coord in data['you']['body']:
         tail_coords.append((tail_coord['x'], tail_coord['y']))
     if new_head_coord in tail_coords:
+        print('would hit our own tail if we go {}'.format(direction))
         return(True)
     else:
         return(False)

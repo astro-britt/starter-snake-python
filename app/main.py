@@ -73,14 +73,15 @@ def move():
 
     head_x = data['you']['body'][0]['x']
     head_y = data['you']['body'][0]['y']
+
     # no neck on first turn
     if turn != 1:
         neck_x = data['you']['body'][1]['x']
         neck_y = data['you']['body'][1]['y']
-    # other_sneks = data['board']['snakes']
 
     for direction in ['up', 'down', 'left', 'right']:
         reward = 0
+
         # check if any of the moves will run you into a wall
         if hit_wall(head_x, head_y, board_height, board_width, direction):
             reward += -np.inf
@@ -105,11 +106,11 @@ def move():
         # update directions dict with new reward
         directions[direction] += reward
 
-        # for the log
-        print(directions)
-
     # choose direction with greatest reward
     direction = keywithmaxval(directions)
+
+    # for the log
+    print(directions)
     print('Chose to go {} on turn {}'.format(direction, turn))
 
     return move_response(direction)
