@@ -127,7 +127,6 @@ if __name__ == '__main__':
         port=os.getenv('PORT', '8080'),
         debug=os.getenv('DEBUG', True)
     )
-xspo
 
 # done
 def hit_wall(head_x, head_y, board_height, board_width, direction):
