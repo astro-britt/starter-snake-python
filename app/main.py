@@ -73,7 +73,7 @@ def move():
     head_y = data['you']['body'][0]['y']
     neck_x = data['you']['body'][1]['x']
     neck_y = data['you']['body'][1]['y']
-    other_sneks = data['board']['snakes']
+    # other_sneks = data['board']['snakes']
 
     for direction in ['up', 'down', 'left', 'right']:
         reward = 0
@@ -90,7 +90,7 @@ def move():
             reward += -np.inf
 
         # check if any of the moves will run you into another snake
-        if hit_other_snek(head_x, head_y, data, direction):
+        if hit_other_snek(head_x, head_y, data, directiont):
             reward += -np.inf
 
         # check which move will bring you closest to food
@@ -165,7 +165,7 @@ def hit_other_snek(head_x, head_y, data, direction):
     other_snek_body_coords = []
     other_snek_possible_heads = []
 
-    for snek in data['snakes']:
+    for snek in data['board']['snakes']:
         for coord in snek['body']:
             other_snek_body_coords.append((coord['x'], coord['y']))
             # also avoid all possible pixels the other snek could go to
