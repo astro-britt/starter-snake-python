@@ -86,11 +86,11 @@ def move():
             reward += -np.inf
 
         # check if it's going to hit its own tail
-        if head_hit_tail(direction):
+        if head_hit_tail(head_x, head_y, data, direction):
             reward += -np.inf
 
         # check if any of the moves will run you into another snake
-        if hit_other_snek(head_x, head_y, other_sneks, direction):
+        if hit_other_snek(head_x, head_y, data, direction):
             reward += -np.inf
 
         # check which move will bring you closest to food
@@ -154,7 +154,7 @@ def head_hit_neck(head_x, head_y, neck_x, neck_y, direction):
 
 
 # done
-def hit_other_snek(head_x, head_y, other_sneks, direction):
+def hit_other_snek(head_x, head_y, data, direction):
     # True if this move will cause you to collide with another snake
     # according to their current position, not where they could move next
     # also in future, take into account that their tail will shorten if they don't eat
@@ -164,9 +164,11 @@ def hit_other_snek(head_x, head_y, other_sneks, direction):
     # get coordinates occupied by all other snakes
     other_snek_body_coords = []
     other_snek_possible_heads = []
-    for snek in other_sneks:
-        other_snek_body_coords.append((snek['body']['x'], snek['body']['y']))
-        # also avoid all possible pixels the other snek could go to
+
+    for snek in data['snakes']:
+        for coord in snek['body']:
+            other_snek_body_coords.append((coord['x'], coord['y']))
+            # also avoid all possible pixels the other snek could go to
         other_snek_possible_heads.append(get_surrounding_coords(snek['body'][0]['x'], snek['body'][0]['y']))
         # for later if time, check if the other snake can access food,
         # if not then take tail coord out of avoid list
@@ -176,6 +178,20 @@ def hit_other_snek(head_x, head_y, other_sneks, direction):
     else:
         return False
 
+
+def head_hit_tail(head_x, head_y, data, direction):
+    # if moving in this direction will cause the head to hit the tail,
+    # reurn true
+    dir_vect = direction_to_vector(direction)
+    new_head_coord = (head_x + dir_vect[0], head_y + dir_vect[1])
+
+    tail_coords = []
+    for tail_coord in data['you']['body']:
+        tail_coords.append((tail_coord['x'], tail_coord['y']))
+    if new_head_coord in tail_coords:
+        return(True)
+    else:
+        return(False)
 
 # done
 def assign_food_reward(head_x, head_y, data, direction):
