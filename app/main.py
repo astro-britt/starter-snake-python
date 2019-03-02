@@ -2,6 +2,7 @@ import json
 import os
 import random
 import bottle
+import numpy as np
 
 from api import ping_response, start_response, move_response, end_response
 from utils import *

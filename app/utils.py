@@ -1,3 +1,5 @@
+import numpy as np
+
 # done
 def direction_to_vector(direction):
     # convert a direction to a vector
