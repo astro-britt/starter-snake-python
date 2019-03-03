@@ -3,8 +3,8 @@ import numpy as np
 # done
 def direction_to_vector(direction):
     # convert a direction to a vector
-    foo = {'up': (0, 1),
-           'down': (0, -1),
+    foo = {'up': (0, -1),
+           'down': (0, 1),
            'left': (-1, 0),
            'right': (1, 0)
            }
